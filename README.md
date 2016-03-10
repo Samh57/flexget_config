@@ -1,2 +1,13 @@
 # flexget_config
-Repository with all my flexget configurations
+Repository with usefull flexget configurations
+
+# About the infrastructure
+These FlexGet scripts are used within a full automated multimedia infrastructure running on a CentOS dedicated server.
+
+List of major components : 
+  
+  - FlexGet (Movies and TV Shows discover & download - http://flexget.com/)
+  - Deluge (Torrent Client - http://deluge-torrent.org/)
+  - FileBot (Multimedia files processing - http://www.filebot.net/)
+  - Plex (Multimedia streaming platform - https://plex.tv/)
+
