@@ -1,0 +1,206 @@
+secrets: secrets.yml
+
+templates:
+
+  global:
+
+    # Limit download when filesystem is almost full
+    free_space:
+      path: '{{ secrets.dirs.rootmedia }}'
+      space: 50000
+    regexp:
+      reject:
+        - (s|d)ub(s|bed)?\b: {from: title}                    # Block any subbed/dubbed/etc videos
+        - \bspanish\b: {from: title}                          # Spanish releases kept cropping up
+        - \bitalian\b: {from: title}                          # Italian releases too.
+        - \b(duo|tri|quadri|tetra|penta)logy\b: {from: title} # Block series, only accept one at a time
+        - \b3-?D\b: {from: title}                             # I don't have any 3D displays
+        - \btrailer\b: {from: title}                          # I've gotten a few trailers that matched as movies. VERY annoying
+        - \bR5\b: {from: title}                               # The following are poor quality types that somehow got through the quality
+        - \bWEBSCR\b: {from: title}                           # features usually due to the title including a keyword like "720p" as well
+        - \bscreener\b: {from: title}
+        - \bTS\b: {from: title}
+        - \bCam\b: {from: title}
+        - '{C_P}': {from: title}                              # The following are groups with poor quality releases
+        - TrTd TeaM: {from: title}
+        - \[TNTVillage\]: {from: title}
+        - \[facepalm\]: {from: title}
+        - \bASAP\b: {from: title}
+        - the.day.of.the.doctor                               # The following are titles that caused me issues from plugin
+    torrent_alive:
+      min_seeds: 5
+      reject_for: 1 day
+    content_filter:
+      require:
+        - '*.avi'
+        - '*.mkv'
+        - '*.mpg'
+        - '*.mp4'
+      reject:
+        - 'password.txt'
+        - '*.wmv'
+        - '*.r0*'
+        - '*.part0*'
+      
+  movies_global:
+    
+    archive: [movies]
+    content_size:
+      max: 8000
+      min: 2000
+    imdb_lookup: yes
+    proper_movies: yes
+    quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+    exists_movie:
+      path: '{{ secrets.dirs.movies }}'
+      type: dirs
+      allow_different_qualities: better
+    deluge:
+      username: '{{ secrets.deluge.username }}'
+      password: '{{ secrets.deluge.password }}'
+      label: "Movies"
+    
+  tv_global:
+    
+    archive: [tv]
+    content_size:
+      max: 3000
+      min: 600
+    exists_series: 
+      path: '{{ secrets.dirs.shows }}'
+      allow_different_qualities: better
+    thetvdb_lookup: yes
+    trakt_lookup: yes
+    configure_series:
+      settings:
+        quality: 720p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+      from:
+        trakt_list:
+          account: '{{ secrets.trakt.acct1 }}'
+          list: My TV Shows
+          type: shows
+    deluge:
+      username: '{{ secrets.deluge.username }}'
+      password: '{{ secrets.deluge.password }}'
+      label: "TV Shows"
+  
+tasks:
+
+  trakt_movie_queue_fill:
+
+    priority: 1
+    trakt_list:
+      username: '{{ secrets.trakt.acct1 }}'
+      list: watchlist
+      type: movies
+    accept_all: yes
+    movie_queue: add
+    
+  movie_queue_download:
+    
+    template: [movies_global]
+    priority: 10
+    discover:
+      what:
+        - emit_movie_queue: yes
+      from:
+        - t411:
+            category: Film
+            terms:
+              - Multi (Français inclus)
+              - 2D
+              - Bluray
+              - Bluray 4K
+              - Web-Dl 1080
+              - HDrip 1080
+              - HDlight 1080
+        - flexget_archive: [movies]
+      interval: 12 hours
+    movie_queue: accept  
+
+  movies_auto_download:
+    
+    template: [movies_global]
+    priority: 20
+    imdb:
+      min_score: 6.0
+      min_votes: 7000
+      min_year: 2014
+      reject_genres:
+        - musical
+        - documentary
+      reject_mpaa_ratings:
+        - G
+    t411:
+      category: Film
+      terms:
+        - Multi (Français inclus)
+        - 2D
+        - Bluray
+        - Bluray 4K
+        - Web-Dl 1080
+        - HDrip 1080
+        - HDlight 1080
+      max_results: 200
+    t411_lookup: fill
+  
+  follow_show_from_ep:
+    
+    priority: 50
+    seen: local
+    trakt_list:
+      account: '{{ secrets.trakt.acct1 }}'
+      list: watchlist
+      type: episodes
+    accept_all: yes
+    set_series_begin: yes
+    trakt_remove:
+      account: '{{ secrets.trakt.acct1 }}'
+      list: watchlist
+    trakt_add:
+      account: '{{ secrets.trakt.acct1 }}'
+      list: My TV Shows
+      type: shows
+  
+  tv_shows_download:
+  
+    priority: 60
+    template: [tv_global]
+    discover:
+      what:
+        - emit_series: yes
+      from:
+        - flexget_archive: [tv]
+        - t411:
+            category: Série TV
+            terms:
+              - VOSTFR
+              - Multi (Français inclus)
+              - Web-Dl 720
+              - Web-Dl 1080
+              - HDlight 1080
+              - HDlight 720
+              - Web-Dl
+              - HDrip 720
+              - HDrip 1080
+              - BDrip/BRrip
+
+  sync_trakt_series:
+    
+    manual: yes    
+    trakt_emit:
+      account: '{{ secrets.trakt.acct1 }}'
+      position: next
+      list: My TV Shows
+    set_series_begin: yes
+    accept_all: yes
+    
+    
+schedules:
+  - tasks: [follow_show_from_ep, tv_shows_download]
+    interval:
+      hours: 6
+  
+  - tasks: [trakt_movie_queue_fill, movie_queue_download, movies_auto_download]
+    interval:
+      hours: 12
