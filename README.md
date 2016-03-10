@@ -6,7 +6,7 @@ These FlexGet scripts are used within a full automated multimedia infrastructure
 
 List of major components : 
   
-  - FlexGet (Movies and TV Shows discover & download - http://flexget.com/)
+  - FlexGet (Movies and TV Shows, discovering & downloading - http://flexget.com/)
   - Deluge (Torrent Client - http://deluge-torrent.org/)
   - FileBot (Multimedia files processing - http://www.filebot.net/)
   - Plex (Multimedia streaming platform - https://plex.tv/)
