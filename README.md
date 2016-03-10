@@ -1,7 +1,7 @@
 # flexget_config
 Repository with usefull flexget configurations
 
-# About the infrastructure
+# About the context
 These FlexGet scripts are used within a full automated multimedia infrastructure running on a CentOS dedicated server.
 
 List of major components : 
