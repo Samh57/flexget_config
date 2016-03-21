@@ -44,7 +44,6 @@ templates:
       
   movies_global:
     
-    archive: [movies]
     content_size:
       max: 8000
       min: 2000
@@ -62,7 +61,6 @@ templates:
     
   tv_global:
     
-    archive: [tv]
     content_size:
       max: 3000
       min: 600
