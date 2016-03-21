@@ -113,7 +113,6 @@ tasks:
               - Web-Dl 1080
               - HDrip 1080
               - HDlight 1080
-        - flexget_archive: [movies]
       interval: 12 hours
     movie_queue: accept  
 
@@ -170,7 +169,6 @@ tasks:
       what:
         - emit_series: yes
       from:
-        - flexget_archive: [tv]
         - t411:
             category: Série TV
             terms:
