@@ -49,7 +49,7 @@ templates:
       min: 2000
     imdb_lookup: yes
     proper_movies: yes
-    quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+    quality: 1080p+ h264 dd5.1|truehd|dts|dtshd|ac3
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
@@ -71,7 +71,7 @@ templates:
     trakt_lookup: yes
     configure_series:
       settings:
-        quality: 720p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+        quality: 720p+ h264 dd5.1|truehd|dts|dtshd|ac3
       from:
         trakt_list:
           account: '{{ secrets.trakt.acct1 }}'
