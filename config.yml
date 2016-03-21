@@ -79,7 +79,7 @@ templates:
           account: '{{ secrets.trakt.acct1 }}'
           list: My TV Shows
           type: shows
-		  strip_dates: yes
+          strip_dates: yes
     deluge:
       username: '{{ secrets.deluge.username }}'
       password: '{{ secrets.deluge.password }}'
@@ -153,7 +153,7 @@ tasks:
       account: '{{ secrets.trakt.acct1 }}'
       list: watchlist
       type: episodes
-	  strip_dates: yes
+      strip_dates: yes
     accept_all: yes
     set_series_begin: yes
     trakt_remove:
@@ -194,7 +194,7 @@ tasks:
       account: '{{ secrets.trakt.acct1 }}'
       position: next
       list: My TV Shows
-	  strip_dates: yes
+      strip_dates: yes
     set_series_begin: yes
     accept_all: yes
     
