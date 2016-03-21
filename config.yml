@@ -79,6 +79,7 @@ templates:
           account: '{{ secrets.trakt.acct1 }}'
           list: My TV Shows
           type: shows
+		  strip_dates: yes
     deluge:
       username: '{{ secrets.deluge.username }}'
       password: '{{ secrets.deluge.password }}'
