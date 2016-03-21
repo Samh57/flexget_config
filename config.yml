@@ -8,8 +8,8 @@ templates:
     free_space:
       path: '{{ secrets.dirs.rootmedia }}'
       space: 50000
-    regexp:
-      reject:
+    #regexp:
+      #reject:
         #- (s|d)ub(s|bed)?\b: {from: title}                    # Block any subbed/dubbed/etc videos
         #- \bspanish\b: {from: title}                          # Spanish releases kept cropping up
         #- \bitalian\b: {from: title}                          # Italian releases too.
