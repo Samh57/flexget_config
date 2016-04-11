@@ -91,6 +91,7 @@ tasks:
     priority: 1
     trakt_list:
       username: '{{ secrets.trakt.acct1 }}'
+      account: '{{ secrets.trakt.acct1 }}'
       list: watchlist
       type: movies
     accept_all: yes
