@@ -184,7 +184,7 @@ tasks:
               - HDrip 720
               - HDrip 1080
               - BDrip/BRrip
-            max_resultst: 300
+            max_results: 300
 
   sync_trakt_series:
     
