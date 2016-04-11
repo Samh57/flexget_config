@@ -49,7 +49,7 @@ templates:
       min: 2000
     imdb_lookup: yes
     proper_movies: yes
-    quality: 1080p+ h264 dd5.1|truehd|dts|dtshd|ac3
+    quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
@@ -63,7 +63,7 @@ templates:
     
     content_size:
       max: 3000
-      min: 600
+      min: 300
     exists_series: 
       path: '{{ secrets.dirs.shows }}'
       allow_different_qualities: better
@@ -71,7 +71,8 @@ templates:
     trakt_lookup: yes
     configure_series:
       settings:
-        quality: 720p+ h264 dd5.1|truehd|dts|dtshd|ac3
+        quality: 720p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3|mp3
+        identified_by: ep
       from:
         trakt_list:
           account: '{{ secrets.trakt.acct1 }}'
@@ -113,6 +114,7 @@ tasks:
               - Web-Dl 1080
               - HDrip 1080
               - HDlight 1080
+            max_results: 300
       interval: 12 hours
     movie_queue: accept  
 
@@ -182,6 +184,7 @@ tasks:
               - HDrip 720
               - HDrip 1080
               - BDrip/BRrip
+            max_resultst: 300
 
   sync_trakt_series:
     
