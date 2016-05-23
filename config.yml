@@ -48,7 +48,6 @@ templates:
     content_size:
       max: 8000
       min: 2000
-    imdb_lookup: yes
     proper_movies: yes
     quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
     exists_movie:
@@ -59,6 +58,8 @@ templates:
       username: '{{ secrets.deluge.username }}'
       password: '{{ secrets.deluge.password }}'
       label: "Movies"
+    parsing:
+      movie: guessit
     
   tv_global:
     
@@ -156,7 +157,6 @@ tasks:
   follow_show_from_ep:
     
     priority: 50
-    seen: local
     trakt_list:
       account: '{{ secrets.trakt.acct1 }}'
       list: watchlist
