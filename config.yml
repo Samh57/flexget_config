@@ -49,7 +49,7 @@ templates:
       max: 8000
       min: 2000
     proper_movies: yes
-    quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+    quality: 1080p+ dvdrip+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
@@ -73,7 +73,7 @@ templates:
     trakt_lookup: yes
     configure_series:
       settings:
-        quality: 720p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3|mp3
+        quality: 720p+ tvrip+ h264|h265 dd5.1|truehd|dts|dtshd|ac3|mp3|aac
         identified_by: ep
       from:
         trakt_list:
