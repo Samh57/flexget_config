@@ -199,6 +199,7 @@ tasks:
               - TVripHD 1080
             max_results: 300
         - flexget_archive: [tv]
+    t411_lookup: fill
 
   sync_trakt_series:
     
