@@ -158,6 +158,7 @@ tasks:
     
     priority: 50
     trakt_list:
+      username: '{{ secrets.trakt.acct1 }}'
       account: '{{ secrets.trakt.acct1 }}'
       list: watchlist
       type: episodes
