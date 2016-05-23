@@ -44,6 +44,7 @@ templates:
       
   movies_global:
     
+    archive: [movies]
     content_size:
       max: 8000
       min: 2000
@@ -61,13 +62,13 @@ templates:
     
   tv_global:
     
+    archive: [tv]
     content_size:
-      max: 3000
+      max: 2000
       min: 300
     exists_series: 
       path: '{{ secrets.dirs.shows }}'
       allow_different_qualities: better
-    thetvdb_lookup: yes
     trakt_lookup: yes
     configure_series:
       settings:
@@ -86,7 +87,7 @@ templates:
   
 tasks:
 
-  trakt_movie_queue_fill:
+  trakt_movie_list_fill:
 
     priority: 1
     trakt_list:
@@ -95,15 +96,16 @@ tasks:
       list: watchlist
       type: movies
     accept_all: yes
-    movie_queue: add
+    list_add:
+      - movie_list: watchlist from trakt
     
-  movie_queue_download:
+  movie_list_download:
     
     template: [movies_global]
     priority: 10
     discover:
       what:
-        - emit_movie_queue: yes
+        - movie_list: watchlist from trakt
       from:
         - t411:
             category: Film
@@ -115,18 +117,24 @@ tasks:
               - Web-Dl 1080
               - HDrip 1080
               - HDlight 1080
-            max_results: 300
-      interval: 12 hours
-    movie_queue: accept  
+            max_results: 200
+        - flexget_archive: [movies]
+      interval: 10 hours
+    list_accept:
+      - movie_list: watchlist from trakt
+    list_remove:
+      - trakt_list:
+          account: '{{ secrets.trakt.acct1 }}'
+          list: watchlist
 
   movies_auto_download:
     
     template: [movies_global]
     priority: 20
     imdb:
-      min_score: 6.0
+      min_score: 6.2
       min_votes: 7000
-      min_year: 2014
+      min_year: 2015
       reject_genres:
         - musical
         - documentary
@@ -156,13 +164,15 @@ tasks:
       strip_dates: yes
     accept_all: yes
     set_series_begin: yes
-    trakt_remove:
-      account: '{{ secrets.trakt.acct1 }}'
-      list: watchlist
-    trakt_add:
-      account: '{{ secrets.trakt.acct1 }}'
-      list: My TV Shows
-      type: shows
+    list_remove:
+      - trakt_list:
+          account: '{{ secrets.trakt.acct1 }}'
+          list: watchlist
+    list_add:
+      - trakt_list:
+          account: '{{ secrets.trakt.acct1 }}'
+          list: My TV Shows
+          type: shows
   
   tv_shows_download:
   
@@ -188,6 +198,7 @@ tasks:
               - TVripHD 1080
               - TVripHD 1080
             max_results: 300
+        - flexget_archive: [tv]
 
   sync_trakt_series:
     
@@ -204,8 +215,8 @@ tasks:
 schedules:
   - tasks: [follow_show_from_ep, tv_shows_download]
     interval:
-      hours: 6
+      hours: 4
   
-  - tasks: [trakt_movie_queue_fill, movie_queue_download, movies_auto_download]
+  - tasks: [trakt_movie_list_fill, movie_list_download, movies_auto_download]
     interval:
-      hours: 12
+      hours: 10
