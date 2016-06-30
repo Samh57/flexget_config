@@ -121,7 +121,7 @@ tasks:
             max_results: 200
         - flexget_archive: [movies]
       interval: 10 hours
-    list_accept:
+    list_add:
       - movie_list: watchlist from trakt
     list_remove:
       - trakt_list:
@@ -181,7 +181,7 @@ tasks:
     template: [tv_global]
     discover:
       what:
-        - emit_series: yes
+        - next_series_episodes: yes
       from:
         - t411:
             category: Série TV
@@ -205,7 +205,8 @@ tasks:
   sync_trakt_series:
     
     manual: yes    
-    trakt_emit:
+    next_trakt_episodes:
+      username: '{{ secrets.trakt.acct1 }}'
       account: '{{ secrets.trakt.acct1 }}'
       position: next
       list: My TV Shows
