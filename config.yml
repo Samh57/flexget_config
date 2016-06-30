@@ -73,7 +73,7 @@ templates:
     trakt_lookup: yes
     configure_series:
       settings:
-        quality: 720p+
+        quality: 720p|1080p
         identified_by: ep
       from:
         trakt_list:
