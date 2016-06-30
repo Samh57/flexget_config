@@ -66,7 +66,7 @@ templates:
     archive: [tv]
     content_size:
       max: 2000
-      min: 300
+      min: 200
     exists_series: 
       path: '{{ secrets.dirs.shows }}'
       allow_different_qualities: better
@@ -152,7 +152,7 @@ tasks:
         - HDrip 1080
         - HDlight 1080
       max_results: 200
-    t411_lookup: fill
+    t411_lookup: override
   
   follow_show_from_ep:
     
@@ -200,7 +200,7 @@ tasks:
               - TVripHD 1080
             max_results: 300
         - flexget_archive: [tv]
-    t411_lookup: fill
+    t411_lookup: override
 
   sync_trakt_series:
     
