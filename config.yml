@@ -33,6 +33,7 @@ templates:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
       allow_different_qualities: better
+    imdb_lookup: yes
 #    parsing:
 #      movie: guessit
 
@@ -93,7 +94,7 @@ tasks:
         - t411:
             category: Film
             terms:
-              - Multi (Français inclus)
+              - Multi
               - 2D
               - Bluray
               - Bluray 4K
@@ -122,7 +123,7 @@ tasks:
     t411:
       category: Film
       terms:
-        - Multi (Français inclus)
+        - Multi
         - 2D
         - Bluray
         - Bluray 4K
