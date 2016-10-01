@@ -6,9 +6,6 @@ templates:
     free_space:
       path: '{{ secrets.dirs.rootmedia }}'
       space: 50000
-    torrent_alive:
-      min_seeds: 2
-      reject_for: 1 day
     content_filter:
       require:
         - '*.avi'
@@ -30,14 +27,14 @@ templates:
       max: 8000
       min: 1800
     proper_movies: yes
-    assume_quality: 720p webrip h264 aac
+    assume_quality: 720p hdrip h264 aac
     quality: 1080p+ webrip+ h264+ aac+
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
       allow_different_qualities: better
-    parsing:
-      movie: guessit
+#    parsing:
+#      movie: guessit
 
   tv_global:    
     archive: [tv]
