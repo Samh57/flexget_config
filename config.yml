@@ -180,7 +180,7 @@ tasks:
       list: movies_auto_result_filtered_2
       state:
         - accepted
-	  
+  
   movies_auto_download:
     priority: 23
     template: [movies_global]
