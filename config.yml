@@ -7,11 +7,11 @@ templates:
       path: '{{ secrets.dirs.rootmedia }}'
       space: 50000
     content_filter:
-      require:
-        - '*.avi'
-        - '*.mkv'
-        - '*.mpg'
-        - '*.mp4'
+#      require:
+#        - '*.avi'
+#        - '*.mkv'
+#        - '*.mpg'
+#        - '*.mp4'
       reject:
         - 'password.txt'
         - '*.wmv'
