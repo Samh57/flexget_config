@@ -43,6 +43,21 @@ templates:
       label: "Movies"
     parsing:
       movie: guessit
+    #pushbullet:
+    #  apikey:
+    #    - xxxxxxx1
+    #    - xxxxxxx2
+    #  title: >
+    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}}
+    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}})
+    #    { % else %}{{title}}
+    #    {% endif %}
+    #  body: >
+    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}} - {{tvdb_ep_name|d('')}}{% if quality is defined %} ({{quality}}){% endif %}
+    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}}){% if quality is defined %} ({{quality}}){% endif %}
+    #    {% else %}{{title}}{% if quality is defined %} ({{quality}}){% endif %}
+    #    {% endif %}
+
     
   tv_global:
     
@@ -133,7 +148,6 @@ tasks:
     t411_lookup: fill
     trakt_lookup:
       username: '{{ secrets.trakt.acct1 }}'
-    trakt_lookup:
       username: '{{ secrets.trakt.acct2 }}'
     if:
       - trakt_watched: reject
@@ -169,6 +183,22 @@ tasks:
       from:
         - t411:
             category: Série TV
+            terms:
+              - VOSTFR
+              - Multi (Français inclus)
+              - Web-Dl 720
+              - Web-Dl 1080
+              - HDlight 1080
+              - HDlight 720
+              - Web-Dl
+              - HDrip 720
+              - HDrip 1080
+              - BDrip/BRrip
+              - TVripHD 1080
+              - TVripHD 1080
+            max_results: 300
+        - t411:
+            category: Animation Série
             terms:
               - VOSTFR
               - Multi (Français inclus)
