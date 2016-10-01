@@ -32,7 +32,7 @@ templates:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
       allow_different_qualities: better
-    imdb_lookup: yes
+    trakt_lookup: yes
 #    parsing:
 #      movie: guessit
 
