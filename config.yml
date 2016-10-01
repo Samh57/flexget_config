@@ -39,7 +39,6 @@ templates:
     parsing:
       movie: guessit
 
-    
   tv_global:    
     archive: [tv]
     content_size:
@@ -264,7 +263,6 @@ schedules:
 
 
 ##### FOR LATER 
-	  
     #pushbullet:
     #  apikey:
     #    - xxxxxxx1
