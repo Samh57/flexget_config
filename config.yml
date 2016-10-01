@@ -147,8 +147,9 @@ tasks:
       max_results: 200
     t411_lookup: fill
     trakt_lookup:
-      username: '{{ secrets.trakt.acct1 }}'
-      username: '{{ secrets.trakt.acct2 }}'
+      username: 
+        - '{{ secrets.trakt.acct1 }}'
+        - '{{ secrets.trakt.acct2 }}'
     if:
       - trakt_watched: reject
   
