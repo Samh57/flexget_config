@@ -26,7 +26,6 @@ templates:
     content_size:
       max: 8000
       min: 1800
-    proper_movies: yes
     assume_quality: 720p hdrip h264 aac
     quality: 1080p+ webrip+ h264+ aac+
     exists_movie:
