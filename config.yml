@@ -2,8 +2,7 @@ secrets: secrets.yml
 
 templates:
 
-  global:
-  
+  global:  
     free_space:
       path: '{{ secrets.dirs.rootmedia }}'
       space: 50000
@@ -26,21 +25,16 @@ templates:
       - seen_info_hash
       
   movies_global:
-    
     archive: [movies]
     content_size:
       max: 8000
       min: 1800
     proper_movies: yes
-    quality: 1080p+ h264|h265 dd5.1|truehd|dts|dtshd|ac3
+    quality: 1080p+ h264+ aac+
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
       allow_different_qualities: better
-    deluge:
-      username: '{{ secrets.deluge.username }}'
-      password: '{{ secrets.deluge.password }}'
-      label: "Movies"
     parsing:
       movie: guessit
     #pushbullet:
@@ -59,8 +53,7 @@ templates:
     #    {% endif %}
 
     
-  tv_global:
-    
+  tv_global:    
     archive: [tv]
     content_size:
       max: 2000
@@ -82,12 +75,11 @@ templates:
     deluge:
       username: '{{ secrets.deluge.username }}'
       password: '{{ secrets.deluge.password }}'
-      label: "TV Shows"
+      label: "tv_shows"
   
 tasks:
 
-  trakt_movie_list_fill:
-
+  trakt_movie_list_fill1:
     priority: 1
     trakt_list:
       username: '{{ secrets.trakt.acct1 }}'
@@ -97,9 +89,18 @@ tasks:
     accept_all: yes
     list_add:
       - movie_list: watchlist from trakt
+
+  trakt_movie_list_fill2:
+    priority: 2
+    trakt_list:
+      username: '{{ secrets.trakt.acct2 }}'
+      list: watchlist
+      type: movies
+    accept_all: yes
+    list_add:
+      - movie_list: watchlist from trakt
     
   movie_list_download:
-    
     template: [movies_global]
     priority: 10
     discover:
@@ -120,12 +121,13 @@ tasks:
         - flexget_archive: [movies]
       interval: 10 hours
     list_remove:
-      - trakt_list:
-          account: '{{ secrets.trakt.acct1 }}'
-          list: watchlist
+      - movie_list: watchlist from trakt
+    deluge:
+      username: '{{ secrets.deluge.username }}'
+      password: '{{ secrets.deluge.password }}'
+      label: "movies_list"
 
-  movies_auto_download:
-    
+  movies_auto_discover:
     template: [movies_global]
     priority: 20
     imdb:
@@ -146,15 +148,53 @@ tasks:
         - HDlight 1080
       max_results: 200
     t411_lookup: fill
+    digest: 
+      list: movies_auto_result
+
+  movies_auto_filter1:
+    priority: 21
+    template: [movies_global]
+    from_digest:
+      list: movies_auto_result
+      expire : yes
     trakt_lookup:
-      username: 
-        - '{{ secrets.trakt.acct1 }}'
-        - '{{ secrets.trakt.acct2 }}'
+      username: '{{ secrets.trakt.acct1 }}'
     if:
       - trakt_watched: reject
+    digest: 
+      list: movies_auto_result_filtered_1
+      state:
+        - accepted
+
+  movies_auto_filter2:
+    priority: 22
+    template: [movies_global]
+    from_digest:
+      list: movies_auto_result_filtered_1
+      expire : yes
+    trakt_lookup:
+      username: '{{ secrets.trakt.acct2 }}'
+    if:
+      - trakt_watched: reject
+    digest: 
+      list: movies_auto_result_filtered_2
+      state:
+        - accepted
+	  
+  movies_auto_download:
+    priority: 23
+    template: [movies_global]
+    from_digest:
+      list: movies_auto_result_filtered_2
+      expire : yes
+    deluge:
+      username: '{{ secrets.deluge.username }}'
+      password: '{{ secrets.deluge.password }}'
+      label: "movies_auto"
+
+
   
   follow_show_from_ep:
-    
     priority: 50
     trakt_list:
       username: '{{ secrets.trakt.acct1 }}'
@@ -174,8 +214,7 @@ tasks:
           list: My TV Shows
           type: shows
   
-  tv_shows_download:
-  
+  tv_shows_download:  
     priority: 60
     template: [tv_global]
     discover:
@@ -217,8 +256,7 @@ tasks:
         - flexget_archive: [tv]
     t411_lookup: fill
 
-  sync_trakt_series:
-    
+  sync_trakt_series:  
     manual: yes    
     next_trakt_episodes:
       username: '{{ secrets.trakt.acct1 }}'
@@ -235,6 +273,6 @@ schedules:
     interval:
       hours: 4
   
-  - tasks: [trakt_movie_list_fill, movie_list_download, movies_auto_download]
+  - tasks: [trakt_movie_list_fill1, trakt_movie_list_fill2, movie_list_download, movies_auto_discover, movies_auto_filter1, movies_auto_filter2, movies_auto_download]
     interval:
       hours: 10
