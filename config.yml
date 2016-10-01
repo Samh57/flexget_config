@@ -37,20 +37,6 @@ templates:
       allow_different_qualities: better
     parsing:
       movie: guessit
-    #pushbullet:
-    #  apikey:
-    #    - xxxxxxx1
-    #    - xxxxxxx2
-    #  title: >
-    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}}
-    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}})
-    #    { % else %}{{title}}
-    #    {% endif %}
-    #  body: >
-    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}} - {{tvdb_ep_name|d('')}}{% if quality is defined %} ({{quality}}){% endif %}
-    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}}){% if quality is defined %} ({{quality}}){% endif %}
-    #    {% else %}{{title}}{% if quality is defined %} ({{quality}}){% endif %}
-    #    {% endif %}
 
     
   tv_global:    
@@ -149,13 +135,13 @@ tasks:
       max_results: 200
     t411_lookup: fill
     digest: 
-      list: movies_auto_result
+      list: movies_auto_result_discover
+      state: accepted
 
   movies_auto_filter1:
     priority: 21
-    template: [movies_global]
     from_digest:
-      list: movies_auto_result
+      list: movies_auto_result_discover  
       expire : yes
     trakt_lookup:
       username: '{{ secrets.trakt.acct1 }}'
@@ -168,7 +154,6 @@ tasks:
 
   movies_auto_filter2:
     priority: 22
-    template: [movies_global]
     from_digest:
       list: movies_auto_result_filtered_1
       expire : yes
@@ -183,7 +168,6 @@ tasks:
   
   movies_auto_download:
     priority: 23
-    template: [movies_global]
     from_digest:
       list: movies_auto_result_filtered_2
       expire : yes
@@ -276,3 +260,21 @@ schedules:
   - tasks: [trakt_movie_list_fill1, trakt_movie_list_fill2, movie_list_download, movies_auto_discover, movies_auto_filter1, movies_auto_filter2, movies_auto_download]
     interval:
       hours: 10
+
+
+##### FOR LATER 
+	  
+    #pushbullet:
+    #  apikey:
+    #    - xxxxxxx1
+    #    - xxxxxxx2
+    #  title: >
+    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}}
+    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}})
+    #    { % else %}{{title}}
+    #    {% endif %}
+    #  body: >
+    #    {% if series_name is defined %}{{tvdb_series_name|d(series_name)}} - {{series_id}} - {{tvdb_ep_name|d('')}}{% if quality is defined %} ({{quality}}){% endif %}
+    #    {% elif imdb_name is defined %}{{imdb_name}} ({{imdb_year}}){% if quality is defined %} ({{quality}}){% endif %}
+    #    {% else %}{{title}}{% if quality is defined %} ({{quality}}){% endif %}
+    #    {% endif %}
