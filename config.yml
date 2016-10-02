@@ -139,6 +139,7 @@ tasks:
 
   movies_auto_filter1:
     priority: 21
+    seen: local
     from_digest:
       list: movies_auto_result_discover  
       expire : yes
@@ -156,6 +157,7 @@ tasks:
 
   movies_auto_filter2:
     priority: 22
+    seen: local
     from_digest:
       list: movies_auto_result_filtered_1
       expire : yes
@@ -171,6 +173,7 @@ tasks:
   
   movies_auto_download:
     priority: 23
+    seen : local
     from_digest:
       list: movies_auto_result_filtered_2
       expire : yes
