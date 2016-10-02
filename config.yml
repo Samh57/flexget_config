@@ -27,7 +27,7 @@ templates:
       max: 8000
       min: 1800
 #    assume_quality: 720p webrip h264 aac
-    quality: 1080p+ webrip+ h264+ aac+
+    quality: 1080p aac+
     exists_movie:
       path: '{{ secrets.dirs.movies }}'
       type: dirs
