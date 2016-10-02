@@ -49,7 +49,7 @@ templates:
     torrent_alive: 10
     configure_series:
       settings:
-        quality: 1080p
+        quality: 1080p+
         identified_by: ep
       from:
         trakt_list:
@@ -231,6 +231,7 @@ tasks:
               - BDrip/BRrip
               - TVripHD 1080
               - TVripHD 1080
+              - WEBrip
             max_results: 300
         - t411:
             category: Animation Série
@@ -247,6 +248,7 @@ tasks:
               - BDrip/BRrip
               - TVripHD 1080
               - TVripHD 1080
+              - WEBrip
             max_results: 300
         - flexget_archive: [tv]
     t411_lookup: fill
