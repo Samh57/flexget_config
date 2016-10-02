@@ -178,7 +178,7 @@ tasks:
     from_digest:
       list: movies_auto_result_filtered_2
       expire : yes
-    accept: all
+    accept_all: yes
     list_match:
       from:
         - movie_list: movies_auto_result_filtered_2
