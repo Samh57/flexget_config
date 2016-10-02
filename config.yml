@@ -45,6 +45,7 @@ templates:
       path: '{{ secrets.dirs.shows }}'
       allow_different_qualities: better
     trakt_lookup: yes
+    seen: local
     torrent_alive: 10
     configure_series:
       settings:
@@ -219,7 +220,7 @@ tasks:
             category: Série TV
             terms:
               - VOSTFR
-              - Multi (Français inclus)
+              - Multi
               - Web-Dl 720
               - Web-Dl 1080
               - HDlight 1080
@@ -235,7 +236,7 @@ tasks:
             category: Animation Série
             terms:
               - VOSTFR
-              - Multi (Français inclus)
+              - Multi
               - Web-Dl 720
               - Web-Dl 1080
               - HDlight 1080
