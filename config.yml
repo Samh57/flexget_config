@@ -145,8 +145,10 @@ tasks:
     accept_all: yes
     trakt_lookup:
       username: '{{ secrets.trakt.acct1 }}'
+      account: '{{ secrets.trakt.acct1 }}'
     if:
       - trakt_watched: reject
+      - trakt_collected: reject
     digest: 
       list: movies_auto_result_filtered_1
       state:
