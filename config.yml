@@ -251,6 +251,7 @@ tasks:
               - WEBrip
             max_results: 300
         - flexget_archive: [tv]
+    accept_all: yes
     t411_lookup: fill
 
   sync_trakt_series:  
